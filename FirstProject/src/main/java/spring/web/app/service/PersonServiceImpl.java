@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import spring.web.app.entity.Person;
 import spring.web.app.exception.ApiException;
 import spring.web.app.exception.NotFoundException;
+import spring.web.app.model.PersonDTO;
 import spring.web.app.repository.PersonRepository;
 import java.util.List;
 
@@ -14,14 +15,15 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService{
     @Autowired
     private PersonRepository personRepository;
+
     @Override
-    public Person getPersonById(long id) {
-        return personRepository.findById(id).orElseThrow(() -> new NotFoundException());
+    public List<PersonDTO> getAllPeople() {
+        return PersonDTO.toModal(personRepository.findAll());
     }
 
     @Override
-    public List<Person> getAllPeople() {
-        return personRepository.findAll();
+    public PersonDTO getPersonById(long id) {
+        return PersonDTO.toModal(personRepository.findById(id).orElseThrow(() -> new NotFoundException()));
     }
 
     @Override
@@ -30,8 +32,8 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public List<Person> getOlderPeople(int age) {
-        return personRepository.findByAgeGreaterThan(age);
+    public List<PersonDTO> getOlderPeople(int age) {
+        return PersonDTO.toModal(personRepository.findByAgeGreaterThan(age));
     }
 
     @Override
