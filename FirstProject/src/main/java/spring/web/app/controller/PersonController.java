@@ -13,11 +13,16 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    @GetMapping("/{id}")
+    public PersonDTO findPersonById(@PathVariable("id") long id){
+        return personService.getPersonById(id);
+    }
+
     @GetMapping("")
     public List<PersonDTO> getAllPeople(){
         return personService.getAllPeople();
     }
-    @GetMapping("/{id}")
+    @GetMapping("per/{id}")
     public PersonDTO getPersonById(@PathVariable("id") long id){
         return personService.getPersonById(id);
     }
