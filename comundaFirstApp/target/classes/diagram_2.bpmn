@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0hbqocx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_0whdvap" name="Who are older" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0xrg8rz</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0xrg8rz" sourceRef="StartEvent_1" targetRef="Activity_183o6wk" />
+    <bpmn:serviceTask id="Activity_183o6wk" name="Get People" camunda:delegateExpression="${findOlderPerson}">
+      <bpmn:incoming>Flow_0xrg8rz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i5wbs3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1i5wbs3" sourceRef="Activity_183o6wk" targetRef="Gateway_11u0oz1" />
+    <bpmn:exclusiveGateway id="Gateway_11u0oz1">
+      <bpmn:incoming>Flow_1i5wbs3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0855qng</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0b6vglt</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0855qng" sourceRef="Gateway_11u0oz1" targetRef="Activity_1egr2e1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${firstPersonOlder}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_1egr2e1" name="First person taller">
+      <bpmn:incoming>Flow_0855qng</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pf5s8x</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0b6vglt" sourceRef="Gateway_11u0oz1" targetRef="Activity_1xunar9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!firstPersonOlder}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Activity_1xunar9" name="Second person taller">
+      <bpmn:incoming>Flow_0b6vglt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0epw4vv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0eqs1ub">
+      <bpmn:incoming>Flow_1pf5s8x</bpmn:incoming>
+      <bpmn:incoming>Flow_0epw4vv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1x7nhuu</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1pf5s8x" sourceRef="Activity_1egr2e1" targetRef="Gateway_0eqs1ub" />
+    <bpmn:sequenceFlow id="Flow_0epw4vv" sourceRef="Activity_1xunar9" targetRef="Gateway_0eqs1ub" />
+    <bpmn:endEvent id="Event_0w7r882">
+      <bpmn:incoming>Flow_1x7nhuu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1x7nhuu" sourceRef="Gateway_0eqs1ub" targetRef="Event_0w7r882" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0whdvap">
+      <bpmndi:BPMNEdge id="Flow_0xrg8rz_di" bpmnElement="Flow_0xrg8rz">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="300" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i5wbs3_di" bpmnElement="Flow_1i5wbs3">
+        <di:waypoint x="400" y="177" />
+        <di:waypoint x="435" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0855qng_di" bpmnElement="Flow_0855qng">
+        <di:waypoint x="460" y="152" />
+        <di:waypoint x="460" y="80" />
+        <di:waypoint x="520" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b6vglt_di" bpmnElement="Flow_0b6vglt">
+        <di:waypoint x="460" y="202" />
+        <di:waypoint x="460" y="300" />
+        <di:waypoint x="520" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pf5s8x_di" bpmnElement="Flow_1pf5s8x">
+        <di:waypoint x="620" y="80" />
+        <di:waypoint x="690" y="80" />
+        <di:waypoint x="690" y="175" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0epw4vv_di" bpmnElement="Flow_0epw4vv">
+        <di:waypoint x="620" y="300" />
+        <di:waypoint x="690" y="300" />
+        <di:waypoint x="690" y="225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x7nhuu_di" bpmnElement="Flow_1x7nhuu">
+        <di:waypoint x="715" y="200" />
+        <di:waypoint x="762" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gxx042_di" bpmnElement="Activity_183o6wk">
+        <dc:Bounds x="300" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_11u0oz1_di" bpmnElement="Gateway_11u0oz1" isMarkerVisible="true">
+        <dc:Bounds x="435" y="152" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0d82g02_di" bpmnElement="Activity_1egr2e1">
+        <dc:Bounds x="520" y="40" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0eqs1ub_di" bpmnElement="Gateway_0eqs1ub" isMarkerVisible="true">
+        <dc:Bounds x="665" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nk9cd3_di" bpmnElement="Activity_1xunar9">
+        <dc:Bounds x="520" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0w7r882_di" bpmnElement="Event_0w7r882">
+        <dc:Bounds x="762" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
