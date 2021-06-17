@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+  <bpmn:process id="camunda-with-firstProject-process" name="Who are older" isExecutable="true">
+    <bpmn:startEvent id="Event_0ovrfa0">
+      <bpmn:outgoing>Flow_0w2mcnp</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Activity_0x4dn63" name="Get People" camunda:delegateExpression="${findOlderPerson}">
+      <bpmn:incoming>Flow_0w2mcnp</bpmn:incoming>
+      <bpmn:outgoing>Flow_07ui6ao</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_12b187p" name="First Person &#10;Older">
+      <bpmn:incoming>Flow_07ui6ao</bpmn:incoming>
+      <bpmn:outgoing>Flow_13m0es9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1lz1ymj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_1w5wvna" name="Love the first person">
+      <bpmn:incoming>Flow_13m0es9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bxwbra</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_0w9zut1" name="Love the second person">
+      <bpmn:incoming>Flow_1lz1ymj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bd0h8y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1epzse8">
+      <bpmn:incoming>Flow_0bxwbra</bpmn:incoming>
+      <bpmn:incoming>Flow_1bd0h8y</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mweoi9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1i5ge0e">
+      <bpmn:incoming>Flow_1mweoi9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0w2mcnp" sourceRef="Event_0ovrfa0" targetRef="Activity_0x4dn63" />
+    <bpmn:sequenceFlow id="Flow_07ui6ao" sourceRef="Activity_0x4dn63" targetRef="Gateway_12b187p" />
+    <bpmn:sequenceFlow id="Flow_13m0es9" name="Yes&#10;&#10;" sourceRef="Gateway_12b187p" targetRef="Activity_1w5wvna">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${firstPersonOlder}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1lz1ymj" name="No" sourceRef="Gateway_12b187p" targetRef="Activity_0w9zut1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!firstPersonOlder}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0bxwbra" sourceRef="Activity_1w5wvna" targetRef="Gateway_1epzse8" />
+    <bpmn:sequenceFlow id="Flow_1bd0h8y" sourceRef="Activity_0w9zut1" targetRef="Gateway_1epzse8" />
+    <bpmn:sequenceFlow id="Flow_1mweoi9" sourceRef="Gateway_1epzse8" targetRef="Event_1i5ge0e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="camunda-with-firstProject-process">
+      <bpmndi:BPMNEdge id="Flow_0w2mcnp_di" bpmnElement="Flow_0w2mcnp">
+        <di:waypoint x="198" y="220" />
+        <di:waypoint x="260" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07ui6ao_di" bpmnElement="Flow_07ui6ao">
+        <di:waypoint x="360" y="220" />
+        <di:waypoint x="418" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13m0es9_di" bpmnElement="Flow_13m0es9">
+        <di:waypoint x="443" y="195" />
+        <di:waypoint x="443" y="123" />
+        <di:waypoint x="503" y="123" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="451" y="156" width="17" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lz1ymj_di" bpmnElement="Flow_1lz1ymj">
+        <di:waypoint x="443" y="245" />
+        <di:waypoint x="443" y="343" />
+        <di:waypoint x="503" y="343" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="451" y="291" width="14" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bxwbra_di" bpmnElement="Flow_0bxwbra">
+        <di:waypoint x="603" y="123" />
+        <di:waypoint x="673" y="123" />
+        <di:waypoint x="673" y="195" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bd0h8y_di" bpmnElement="Flow_1bd0h8y">
+        <di:waypoint x="603" y="343" />
+        <di:waypoint x="673" y="343" />
+        <di:waypoint x="673" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mweoi9_di" bpmnElement="Flow_1mweoi9">
+        <di:waypoint x="698" y="220" />
+        <di:waypoint x="752" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0ovrfa0_di" bpmnElement="Event_0ovrfa0">
+        <dc:Bounds x="162" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_12b187p_di" bpmnElement="Gateway_12b187p" isMarkerVisible="true">
+        <dc:Bounds x="418" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="452" y="243" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1w5wvna_di" bpmnElement="Activity_1w5wvna">
+        <dc:Bounds x="503" y="83" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w9zut1_di" bpmnElement="Activity_0w9zut1">
+        <dc:Bounds x="503" y="303" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x4dn63_di" bpmnElement="Activity_0x4dn63">
+        <dc:Bounds x="260" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1epzse8_di" bpmnElement="Gateway_1epzse8" isMarkerVisible="true">
+        <dc:Bounds x="648" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1i5ge0e_di" bpmnElement="Event_1i5ge0e">
+        <dc:Bounds x="752" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

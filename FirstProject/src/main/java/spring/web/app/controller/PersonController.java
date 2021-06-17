@@ -22,7 +22,7 @@ public class PersonController {
     public List<PersonDTO> getAllPeople(){
         return personService.getAllPeople();
     }
-    @GetMapping("per/{id}")
+    @GetMapping("find-person/{id}")
     public PersonDTO getPersonById(@PathVariable("id") long id){
         return personService.getPersonById(id);
     }
